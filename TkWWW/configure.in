@@ -158,16 +158,16 @@ TCL_INCDIR="-I$dir"
 AC_SUBST(TCL_INCDIR)
 ])
 
-dirs="$testdir/lib $x_libraries /usr/local/lib"
+dirs="$testdir/lib $x_libraries /usr/local/lib /usr/pkg/lib"
 dir=nope
 for i in $dirs ; do
-    if test -r $i/libtcl.a; then
+    if test -r $i/libtcl.so; then
 	dir=$i
 	break
     fi
 done
 if test "$dir" = nope ; then
-  echo "What directory contains libtcl.a ?"
+  echo "What directory contains libtcl.so ?"
   read dir
 fi
 TCL_LIBDIR="-L$dir"
@@ -193,8 +193,8 @@ fi
 AC_SUBST(TK_INCDIR)
 ])
 
-if test ! -r $tcllib/libtk.a ; then
-   dirs="$testdir/lib $x_libraries /usr/local/lib"
+if test ! -r $tcllib/libtk.so ; then
+   dirs="$testdir/lib $x_libraries /usr/local/lib /usr/pkg/lib"
    dir=nope
    for i in $dirs ; do
       if test -r $i/libtk.a; then
@@ -203,7 +203,7 @@ if test ! -r $tcllib/libtk.a ; then
       fi
    done
    if test "$dir" = nope ; then
-      echo "What directory contains libtk.a?"
+      echo "What directory contains libtk.so?"
       read dir
 
    fi
