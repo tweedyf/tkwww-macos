@@ -18,7 +18,7 @@
 */
 #include "HTTP.h"
 
-#define HTTP_VERSION	"HTTP/1.1"
+#define HTTP_VERSION	"HTTP/1.0"
 #define HTTP2				/* Version is greater than 0.9 */
 
 #define INIT_LINE_SIZE		1024	/* Start with line buffer this big */
