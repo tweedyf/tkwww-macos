@@ -68,7 +68,7 @@ ALL_CFLAGS= $(DEFINES) $(INCLUDES) $(CFLAGS)
 WWW_LIB= $(srcdir)/../Library/libwww.a
 TKWWW_LIB= $(srcdir)/../Server/libtkwww.a
 
-LIBS= $(TK_LIBDIR) $(TCL_LIBDIR) -ltk -ltcl $(XLIBSW) @LIBS@ -lm
+LIBS= $(TK_LIBDIR) $(TCL_LIBDIR) $(XLIBSW) @LIBS@ -lm
 
 objs = binary.init.o binary.tk.o binary.tkbind.o binary.tcllib.o \
    annotate.o bookmarks.o dialog.o edit.anchor.o \

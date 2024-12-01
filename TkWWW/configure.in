@@ -140,75 +140,14 @@ export testdir
 AC_FIND_PROG_PATH(wish,[testdir=`echo $dir|sed 's%/[^/][^/]*$%%'`])
 echo $testdir
 
-AC_HEADER_CHECK(tcl.h,, [
-dirs="$testdir/include $testdir/include/tcl $x_includes/tk /usr/local/include"
-dir=nope
-for i in $dirs ; do
-    if test -r $i/tcl.h; then
-	dir=$i
-       break
-    fi
-done
-if test "$dir" = "nope" ; then
-    echo "What directory contains tcl.h (absolute path) ?"
-    read dir
-fi
-tclinc=$dir
-TCL_INCDIR="-I$dir"
+TCL_INCDIR="`pkg-config --cflags tcl`"
+TK_INCDIR="`pkg-config --cflags tk`"
+TCL_LIBDIR="`pkg-config --libs tcl`"
+TK_LIBDIR="`pkg-config --libs tk`"
+
 AC_SUBST(TCL_INCDIR)
-])
-
-dirs="$testdir/lib $x_libraries /usr/local/lib /usr/pkg/lib"
-dir=nope
-for i in $dirs ; do
-    if test -r $i/libtcl.so; then
-	dir=$i
-	break
-    fi
-done
-if test "$dir" = nope ; then
-  echo "What directory contains libtcl.so ?"
-  read dir
-fi
-TCL_LIBDIR="-L$dir"
-tcllib=$dir
 AC_SUBST(TCL_LIBDIR)
-
-AC_HEADER_CHECK(tk.h,, [
-if test ! -r $tclinc/tk.h ; then
-   dir=nope
-   dirs="$testdir/include $testdir/include/tk $x_includes/tk /usr/local/include"
-   for i in $dirs ; do
-      if test -r $i/tk.h; then
-	 dir=$i
-         break
-      fi
-   done
-   if test "$dir" = nope ; then
-      echo "What directory contains tk.h?"
-      read dir
-   fi
-   TK_INCDIR="-I$dir"
-fi
 AC_SUBST(TK_INCDIR)
-])
-
-if test ! -r $tcllib/libtk.so ; then
-   dirs="$testdir/lib $x_libraries /usr/local/lib /usr/pkg/lib"
-   dir=nope
-   for i in $dirs ; do
-      if test -r $i/libtk.a; then
-	 dir = $i 
-	 break
-      fi
-   done
-   if test "$dir" = nope ; then
-      echo "What directory contains libtk.so?"
-      read dir
-
-   fi
-   TK_LIBDIR="-L$dir"
-fi
 AC_SUBST(TK_LIBDIR)
 
 # Add special libraries for solaris

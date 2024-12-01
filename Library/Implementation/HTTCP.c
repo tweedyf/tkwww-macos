@@ -70,8 +70,8 @@ extern int errno;
 #ifndef VMS
 #ifndef NeXT
 #ifndef THINK_C
-extern char *sys_errlist[];		/* see man perror on cernvax */
-extern int sys_nerr;
+/*extern char *sys_errlist[];		/ * see man perror on cernvax */
+/*extern int sys_nerr;*/
 #endif  /* think c */
 #endif	/* NeXT */
 #endif  /* VMS */
@@ -107,7 +107,7 @@ PUBLIC int HTInetStatus(where)
 #endif
 
 #ifndef ER_NO_TRANS_DONE
-	    errno < sys_nerr ? sys_errlist[errno] : "Unknown error" );
+	    strerror(errno) );
 #endif
 
 #else /* VMS */

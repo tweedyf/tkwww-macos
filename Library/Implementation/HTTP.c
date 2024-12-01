@@ -18,7 +18,7 @@
 */
 #include "HTTP.h"
 
-#define HTTP_VERSION	"HTTP/1.0"
+#define HTTP_VERSION	"HTTP/1.1"
 #define HTTP2				/* Version is greater than 0.9 */
 
 #define INIT_LINE_SIZE		1024	/* Start with line buffer this big */
@@ -310,6 +310,9 @@ PUBLIC int HTLoadHTTP ARGS1 (HTRequest *, request)
 		    HTAppVersion ? HTAppVersion : "0.0",
 		    HTLibraryVersion, CR, LF);
 	    StrAllocCat(command, line);
+	    StrAllocCat(command, "Host: ");
+	    StrAllocCat(command, HTParse(gate ? gate : arg, "", PARSE_HOST));
+	    StrAllocCat(command, "\r\n");
 
 #ifdef ACCESS_AUTH
 	    if (request->authorization != NULL) {

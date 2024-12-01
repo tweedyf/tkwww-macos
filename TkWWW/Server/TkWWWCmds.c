@@ -108,7 +108,7 @@ HtLoadCmd(dummy, interp, argc, argv)
 
 
   if (!HTLoadAbsolute(argv[1], request)) {
-    if (*interp->result == '\0') {
+    if (*Tcl_GetStringResult(interp) == '\0') {
       HTLoadError(request, 500, "Unable to access document.");
     }
     HTRequest_delete (request);
@@ -207,7 +207,7 @@ HtParseNameCmd(dummy, interp, argc, argv)
   }
 
   Tcl_SetResult(interp, HTParse(argv[1], current_address, PARSE_ALL), 
-		TCL_DYNAMIC);
+		TCL_VOLATILE);
   free(current_address);
   
   return (TCL_OK);

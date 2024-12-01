@@ -4692,91 +4692,14 @@ for dir in $PATH; do
 
 echo $testdir
 
-ac_fn_c_check_header_compile "$LINENO" "tcl.h" "ac_cv_header_tcl_h" "$ac_includes_default"
-if test "x$ac_cv_header_tcl_h" = xyes
-then :
-
-else case e in #(
-  e)
-dirs="$testdir/include $testdir/include/tcl $x_includes/tk /usr/local/include"
-dir=nope
-for i in $dirs ; do
-    if test -r $i/tcl.h; then
-	dir=$i
-       break
-    fi
-done
-if test "$dir" = "nope" ; then
-    echo "What directory contains tcl.h (absolute path) ?"
-    read dir
-fi
-tclinc=$dir
-TCL_INCDIR="-I$dir"
-
- ;;
-esac
-fi
+TCL_INCDIR="`pkg-config --cflags tcl`"
+TK_INCDIR="`pkg-config --cflags tk`"
+TCL_LIBDIR="`pkg-config --libs tcl`"
+TK_LIBDIR="`pkg-config --libs tk`"
 
 
-dirs="$testdir/lib $x_libraries /usr/local/lib /usr/pkg/lib"
-dir=nope
-for i in $dirs ; do
-    if test -r $i/libtcl.so; then
-	dir=$i
-	break
-    fi
-done
-if test "$dir" = nope ; then
-  echo "What directory contains libtcl.so ?"
-  read dir
-fi
-TCL_LIBDIR="-L$dir"
-tcllib=$dir
 
 
-ac_fn_c_check_header_compile "$LINENO" "tk.h" "ac_cv_header_tk_h" "$ac_includes_default"
-if test "x$ac_cv_header_tk_h" = xyes
-then :
-
-else case e in #(
-  e)
-if test ! -r $tclinc/tk.h ; then
-   dir=nope
-   dirs="$testdir/include $testdir/include/tk $x_includes/tk /usr/local/include"
-   for i in $dirs ; do
-      if test -r $i/tk.h; then
-	 dir=$i
-         break
-      fi
-   done
-   if test "$dir" = nope ; then
-      echo "What directory contains tk.h?"
-      read dir
-   fi
-   TK_INCDIR="-I$dir"
-fi
-
- ;;
-esac
-fi
-
-
-if test ! -r $tcllib/libtk.so ; then
-   dirs="$testdir/lib $x_libraries /usr/local/lib /usr/pkg/lib"
-   dir=nope
-   for i in $dirs ; do
-      if test -r $i/libtk.a; then
-	 dir = $i
-	 break
-      fi
-   done
-   if test "$dir" = nope ; then
-      echo "What directory contains libtk.so?"
-      read dir
-
-   fi
-   TK_LIBDIR="-L$dir"
-fi
 
 
 # Add special libraries for solaris

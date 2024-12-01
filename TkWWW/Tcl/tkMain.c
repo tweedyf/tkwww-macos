@@ -133,8 +133,8 @@ main(argc, argv)
      */
 
     if (Tk_ParseArgv(interp, (Tk_Window) NULL, &argc, argv, argTable, 0)
-	    != TCL_OK) {
-	fprintf(stderr, "%s\n", interp->result);
+	    != TCL_OK){
+	fprintf(stderr, "%s\n", Tcl_GetStringResult(interp));
 	exit(1);
     }
     /*
@@ -151,15 +151,23 @@ main(argc, argv)
      * Initialize the Tk application.
      */
 
-    mainWindow = Tk_CreateMainWindow(interp, display, "tkWWW", "Tk");
+    /*mainWindow = Tk_CreateMainWindow(interp, display, "tkWWW", "Tk");
     if (mainWindow == NULL) {
-	fprintf(stderr, "%s\n", interp->result);
+	fprintf(stderr, "%s\n", Tcl_GetStringResult(interp));
 	exit(1);
     }
     if (synchronize) {
 	XSynchronize(Tk_Display(mainWindow), True);
     }
-    Tk_GeometryRequest(mainWindow, 200, 200);
+    Tk_GeometryRequest(mainWindow, 200, 200);*/
+    if(Tcl_Init(interp) != TCL_OK){
+	fprintf(stderr, "%s\n", Tcl_GetStringResult(interp));
+	exit(1);
+    }
+    if(Tk_Init(interp) != TCL_OK){
+	fprintf(stderr, "%s\n", Tcl_GetStringResult(interp));
+	exit(1);
+    }
 
     /*
      * Make command-line arguments available in the Tcl variables "argc"
@@ -196,7 +204,7 @@ main(argc, argv)
      */
 
     if (Tcl_AppInit(interp) != TCL_OK) {
-	fprintf(stderr, "Tcl_AppInit failed: %s\n", interp->result);
+	fprintf(stderr, "Tcl_AppInit failed: %s\n", Tcl_GetStringResult(interp));
     }
 
     /*
@@ -206,7 +214,7 @@ main(argc, argv)
     if (geometry != NULL) {
 	code = Tcl_VarEval(interp, "wm geometry . ", geometry, (char *) NULL);
 	if (code != TCL_OK) {
-	    fprintf(stderr, "%s\n", interp->result);
+	    fprintf(stderr, "%s\n", Tcl_GetStringResult(interp));
 	}
     }
 
@@ -231,7 +239,7 @@ main(argc, argv)
 error:
     msg = Tcl_GetVar(interp, "errorInfo", TCL_GLOBAL_ONLY);
     if (msg == NULL) {
-	msg = interp->result;
+	msg = Tcl_GetStringResult(interp);
     }
     fprintf(stderr, "%s\n", msg);
     Tcl_Eval(interp, errorExitCmd);
