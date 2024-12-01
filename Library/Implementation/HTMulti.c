@@ -140,7 +140,7 @@ PRIVATE HTList * dir_matches ARGS1(char *, path)
 	    !strcmp(dirbuf->d_name,"..") ||
 	    !strcmp(dirbuf->d_name,".www_browsable"))
 	    continue;
-	if ((int)(dirbuf->d_namlen) >= baselen) {
+	if ((int)strlen(dirbuf->d_name) >= baselen) {
 	    n = HTSplitFilename(dirbuf->d_name, actual);
 	    if (multi_match(required, m, actual, n)) {
 		HTContentDescription * cd;
