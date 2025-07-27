@@ -22,6 +22,9 @@ AC_PROG_INSTALL
 AC_PROG_RANLIB
 AC_STDC_HEADERS
 
+# Check for additional system headers needed on macOS
+AC_CHECK_HEADERS([unistd.h sys/socket.h sys/un.h])
+
 #
 # Check for dirent.h or sys/dir.h.  autoconf generates a define of DIRENT,
 # while WWW libraries want USE_DIRENT, so we roll our own check.
@@ -137,13 +140,33 @@ AC_SUBST(tk_www_tk_executable)
 PWD=`pwd`
 testdir=""
 export testdir
-AC_FIND_PROG_PATH(wish,[testdir=`echo $dir|sed 's%/[^/][^/]*$%%'`])
-echo $testdir
 
-TCL_INCDIR="`pkg-config --cflags tcl`"
-TK_INCDIR="`pkg-config --cflags tk`"
-TCL_LIBDIR="`pkg-config --libs tcl`"
-TK_LIBDIR="`pkg-config --libs tk`"
+# Check for Homebrew Tcl/Tk first
+if test -f "/opt/homebrew/bin/wish"; then
+    echo "Found Homebrew Tcl/Tk installation"
+    TCL_INCDIR="-I/opt/homebrew/opt/tcl-tk@8/include"
+    TK_INCDIR="-I/opt/homebrew/opt/tcl-tk@8/include"
+    TCL_LIBDIR="-L/opt/homebrew/opt/tcl-tk@8/lib -ltcl8.6"
+    TK_LIBDIR="-L/opt/homebrew/opt/tcl-tk@8/lib -ltk8.6"
+else
+    # Fallback to system Tcl/Tk
+    AC_FIND_PROG_PATH(wish,[testdir=`echo $dir|sed 's%/[^/][^/]*$%%'`])
+    echo $testdir
+    
+    # Try pkg-config as fallback
+    TCL_INCDIR="`pkg-config --cflags tcl 2>/dev/null`"
+    TK_INCDIR="`pkg-config --cflags tk 2>/dev/null`"
+    TCL_LIBDIR="`pkg-config --libs tcl 2>/dev/null`"
+    TK_LIBDIR="`pkg-config --libs tk 2>/dev/null`"
+    
+    # If pkg-config failed, use default paths
+    if test -z "$TCL_INCDIR"; then
+        TCL_INCDIR="-I/usr/include"
+        TK_INCDIR="-I/usr/include"
+        TCL_LIBDIR="-ltcl"
+        TK_LIBDIR="-ltk"
+    fi
+fi
 
 AC_SUBST(TCL_INCDIR)
 AC_SUBST(TCL_LIBDIR)
