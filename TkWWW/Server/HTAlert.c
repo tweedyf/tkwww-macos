@@ -11,6 +11,10 @@
 
 
 #include "HTAlert.h"
+
+/* System headers needed for getpass, etc. */
+#include <unistd.h>
+#include <sys/types.h>
 #include "HTextDef.h"
 
 #include "tcp.h"		/* for TOUPPER */

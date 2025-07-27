@@ -14,6 +14,11 @@
 
 #include "tcp.h"		/* for TOUPPER */
 #include <ctype.h> 		/* for toupper - should be in tcp.h */
+#include <pwd.h>
+
+#ifndef HAVE_GETPASS_DECL
+char *getpass(const char *prompt);
+#endif
 
 PUBLIC void HTAlert ARGS1(CONST char *, Msg)
 {
