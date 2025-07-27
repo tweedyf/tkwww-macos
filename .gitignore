@@ -1,0 +1,66 @@
+# Build artifacts and object files
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Generated binaries
+tkwww
+wwwish
+wwwtest
+
+# Build directories
+TkWWW/Library/tkWWW/
+TkWWW/Library/libwww.a
+TkWWW/Server/libtkwww.a
+TkWWW/Tcl/tkwww
+
+# Generated Makefiles
+TkWWW/Makefile
+TkWWW/Library/Makefile
+TkWWW/Server/Makefile
+TkWWW/Tcl/Makefile
+
+# Autoconf/Automake generated files
+TkWWW/configure~
+TkWWW/config.log
+TkWWW/config.status
+TkWWW/autom4te.cache/
+TkWWW/autom4te.cache
+
+# Binary Tcl files (generated from .tcl files)
+TkWWW/Tcl/binary.*.o
+TkWWW/Tcl/*.tcl.c
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# macOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Backup files
+*.bak
+*.backup
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Log files
+*.log
+
+# Cache directories
+.cache/
+cache/
+
+# Test files
+test_*
+*_test 
