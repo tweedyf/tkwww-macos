@@ -259,14 +259,21 @@ proc DLG:draw_buttons  { w blist } {
     set i 1
     foreach btn $blist {
 	if {"$btn" != ""} {
-	    button $w.cmds.f$i -text "$btn" -anchor center
+	    # Create custom frame-based button for consistent styling
+	    frame $w.cmds.f$i -relief raised -borderwidth 2 -background gray
+	    label $w.cmds.f$i.label -text "$btn" -background gray -foreground black -relief flat
+	    pack $w.cmds.f$i.label -in $w.cmds.f$i -padx 4 -pady 2
+	    
 	    frame $w.cmds.default$i -relief flat -bd 1
 	    raise $w.cmds.f$i $w.cmds.default$i
 	    pack $w.cmds.default$i -side left -expand 1 -padx 3m -pady 2m
-	    pack $w.cmds.f$i -in $w.cmds.default$i -padx 2m -pady 2m \
-		    -ipadx 2m -ipady 1m
-	    bind $w.cmds.f$i <Enter> \
-		"DLG:button_focus_in $w $i;tk_butEnter %W"
+	    pack $w.cmds.f$i -in $w.cmds.default$i -padx 2m -pady 2m
+	    
+	    # Bind mouse events for button behavior
+	    bind $w.cmds.f$i <Enter> "DLG:button_focus_in $w $i; $w.cmds.f$i configure -background lightgray; $w.cmds.f$i.label configure -background lightgray"
+	    bind $w.cmds.f$i <Leave> "$w.cmds.f$i configure -background gray; $w.cmds.f$i.label configure -background gray"
+	    bind $w.cmds.f$i.label <Enter> "DLG:button_focus_in $w $i; $w.cmds.f$i configure -background lightgray; $w.cmds.f$i.label configure -background lightgray"
+	    bind $w.cmds.f$i.label <Leave> "$w.cmds.f$i configure -background gray; $w.cmds.f$i.label configure -background gray"
 	}
 	incr i
     }
@@ -288,7 +295,8 @@ proc DLG:button_focus_in {w i} {
 }
 
 proc DLG:bind_button {w index command} {
-    $w.cmds.f$index config -command $command
+    bind $w.cmds.f$index <Button-1> $command
+    bind $w.cmds.f$index.label <Button-1> $command
 }
 
 proc DLG:invoke_button {w index} {

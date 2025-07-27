@@ -431,6 +431,28 @@ set tkW3ConfigFontDefault times
 ## Set options
 ## *************************
 
+# Try to disable macOS system styling
+set tk_strictMotif 1
+
+# Force classic Tk styling by setting the visual
+if {[catch {tk windowingsystem} wsystem] == 0} {
+    if {$wsystem == "aqua"} {
+        # On macOS, try to force classic styling
+        option add *Button.relief raised userDefault
+        option add *Button.borderWidth 2 userDefault
+        option add *Button.background gray userDefault
+        option add *Button.foreground black userDefault
+        option add *Button.activeBackground lightgray userDefault
+        option add *Button.activeForeground black userDefault
+        option add *Button.highlightBackground gray userDefault
+        option add *Button.highlightColor black userDefault
+    }
+}
+
+# Disable problematic scrollbar bindings that cause errors
+bind Scrollbar <Any-Enter> {}
+bind Scrollbar <Any-Leave> {}
+
 option add *background gray userDefault
 option add *foreground black userDefault
 option add *buttons*relief raised userDefault
@@ -447,6 +469,29 @@ option add *Text*wrap word userDefault
 option add *Text.relief sunken userDefault
 option add *Text.borderWidth 2 userDefault
 option add *Scrollbar*relief sunken userDefault
+# Style menubuttons to match the application's look and feel
+# Force styling by using more specific patterns and higher priority
+option add *Menubutton*relief raised userDefault
+option add *Menubutton*borderWidth 2 userDefault
+option add *Menubutton*background gray userDefault
+option add *Menubutton*foreground black userDefault
+option add *Menubutton*activeBackground lightgray userDefault
+option add *Menubutton*activeForeground black userDefault
+option add *Menu*background gray userDefault
+option add *Menu*foreground black userDefault
+option add *Menu*activeBackground lightgray userDefault
+option add *Menu*activeForeground black userDefault
+option add *Menu*relief raised userDefault
+option add *Menu*borderWidth 2 userDefault
+# Try to override macOS system styling more aggressively
+option add *TMenubutton*relief raised userDefault
+option add *TMenubutton*borderWidth 2 userDefault
+option add *TMenubutton*background gray userDefault
+option add *TMenubutton*foreground black userDefault
+option add *TMenu*background gray userDefault
+option add *TMenu*foreground black userDefault
+option add *TMenu*activeBackground lightgray userDefault
+option add *TMenu*activeForeground black userDefault
 
 ## *************************
 ## Set key bindings

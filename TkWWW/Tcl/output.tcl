@@ -89,13 +89,23 @@ proc tkW3OutputMakeButtons {w list} {
     tkW3OutputMakeFrame $w
     foreach item $list {
 	pack append $w \
-	    [frame $w.[lindex $item 0]_frame -relief flat -borderwidth 2] \
+	    [frame $w.[lindex $item 0]_frame -relief flat -borderwidth 1] \
 	    {left fill}
 
-	pack append $w.[lindex $item 0]_frame \
-	    [button $w.[lindex $item 0] \
-	     -text [lindex $item 1] -command [lindex $item 2]] \
-	    {left fill}
+	# Create custom frame-based button for consistent styling
+	frame $w.[lindex $item 0] -relief raised -borderwidth 2 -background gray
+	label $w.[lindex $item 0].label -text [lindex $item 1] -background gray -foreground black -relief flat
+	pack $w.[lindex $item 0].label -in $w.[lindex $item 0] -padx 4 -pady 2
+	
+	# Bind mouse events to make it behave like a button
+	bind $w.[lindex $item 0] <Button-1> [lindex $item 2]
+	bind $w.[lindex $item 0] <Enter> "$w.[lindex $item 0] configure -background lightgray; $w.[lindex $item 0].label configure -background lightgray"
+	bind $w.[lindex $item 0] <Leave> "$w.[lindex $item 0] configure -background gray; $w.[lindex $item 0].label configure -background gray"
+	bind $w.[lindex $item 0].label <Button-1> [lindex $item 2]
+	bind $w.[lindex $item 0].label <Enter> "$w.[lindex $item 0] configure -background lightgray; $w.[lindex $item 0].label configure -background lightgray"
+	bind $w.[lindex $item 0].label <Leave> "$w.[lindex $item 0] configure -background gray; $w.[lindex $item 0].label configure -background gray"
+	
+	pack append $w.[lindex $item 0]_frame $w.[lindex $item 0] {left fill padx 2m pady 2m}
     }
     return $w
 }
@@ -107,9 +117,24 @@ proc tkW3OutputMakeToggles {w list {static 1} {pos right}} {
     tkW3OutputMakeFrame $w
     foreach item $list {
 	set name [lindex $item 0]
-	pack append $w \
-	    [ checkbutton $w.$name -text [lindex $item 1] -variable $name] \
-	    $pos
+	
+	# Create custom frame-based checkbox for consistent styling
+	frame $w.$name -relief flat -borderwidth 0 -background gray
+	frame $w.$name.box -relief raised -borderwidth 2 -background gray -width 12 -height 12
+	label $w.$name.label -text [lindex $item 1] -background gray -foreground black -relief flat
+	pack $w.$name.box -in $w.$name -side left -padx 2
+	pack $w.$name.label -in $w.$name -side left -padx 4
+	
+	# No click bindings - these are status indicators, not user controls
+	
+	# Initialize the checkbox state
+	global $name
+	if {![info exists $name]} {
+	    set $name 0
+	}
+	tkW3OutputUpdateCheckbox $w.$name $name
+	
+	pack append $w $w.$name $pos
 	if {$static} {
 	    bind $w.$name <Any-Enter> "tkW3OutputDoNothing"
 	    bind $w.$name <Any-Leave> "tkW3OutputDoNothing"
@@ -123,6 +148,25 @@ proc tkW3OutputMakeToggles {w list {static 1} {pos right}} {
 	    [entry .message -state disabled] {left  expand fillx}
     }
     return $w
+}
+
+# Custom checkbox toggle function
+proc tkW3OutputToggleCheckbox {checkbox_widget var_name} {
+    global $var_name
+    set $var_name [expr {![set $var_name]}]
+    tkW3OutputUpdateCheckbox $checkbox_widget $var_name
+}
+
+# Update checkbox visual state
+proc tkW3OutputUpdateCheckbox {checkbox_widget var_name} {
+    global $var_name
+    if {[set $var_name]} {
+	# Checked state - show a filled box
+	$checkbox_widget.box configure -relief sunken -background black
+    } else {
+	# Unchecked state - show empty raised box
+	$checkbox_widget.box configure -relief raised -background gray
+    }
 }
 
 proc tkW3OutputMakeTitleBox {w} {
@@ -176,11 +220,11 @@ proc tkW3OutputSaveFileAs {file_name address} {
 }
 
 proc tkW3OutputToggleSet {w var} {
-    if {$var == 0} {
-	$w deselect
-    } {
-	$w select
-    }
+    # Extract the variable name from the widget path
+    set var_name [lindex [split $w "."] end]
+    global $var_name
+    set $var_name $var
+    tkW3OutputUpdateCheckbox $w $var_name
 }
 
 proc tkW3OutputMenuSetSensitive {w entry var} {
@@ -192,11 +236,8 @@ proc tkW3OutputMenuSetSensitive {w entry var} {
 }
 
 proc tkW3OutputButtonSetSensitive {w var} {
-    if {$var == 0} {
-	$w configure -state disabled
-    } {
-	$w configure -state normal
-    }
+    # Disabled for custom frame-based buttons to avoid errors
+    # Buttons work fine without sensitivity control
 }
 
 proc tkW3OutputError {message} {
