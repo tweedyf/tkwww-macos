@@ -12,6 +12,10 @@
 
 #include "HTUtils.h"
 #include "tcp.h"		/* Defines SHORT_NAMES if necessary */
+
+/* System headers needed for gethostname, etc. */
+#include <unistd.h>
+#include <sys/types.h>
 #ifdef SHORT_NAMES
 #define HTInetStatus		HTInStat
 #define HTInetString 		HTInStri

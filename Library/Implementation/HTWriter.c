@@ -4,6 +4,10 @@
 */
 #include "HTWriter.h"
 
+/* System headers needed for write, close, etc. */
+#include <unistd.h>
+#include <sys/types.h>
+
 #define BUFFER_SIZE 4096	/* Tradeoff */
 
 #include "HTUtils.h"

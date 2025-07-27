@@ -9,6 +9,7 @@
 /* Implements:
 */
 #include "HTGopher.h"
+#include <unistd.h>
 
 
 #define GOPHER_PORT 70		/* See protocol spec */

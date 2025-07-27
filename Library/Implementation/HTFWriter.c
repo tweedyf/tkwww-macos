@@ -11,6 +11,10 @@
 
 #include "HTFWriter.h"
 
+/* System headers needed for getpid, unlink, etc. */
+#include <unistd.h>
+#include <sys/types.h>
+
 #include "HTFormat.h"
 #include "HTAlert.h"
 #include "HTFile.h"

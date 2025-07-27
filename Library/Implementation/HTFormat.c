@@ -1,3 +1,4 @@
+#include <unistd.h>
 
 /*		Manage different file formats			HTFormat.c
 **		=============================

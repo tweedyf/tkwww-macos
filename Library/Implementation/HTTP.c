@@ -18,6 +18,10 @@
 */
 #include "HTTP.h"
 
+/* System headers needed for write, close, etc. */
+#include <unistd.h>
+#include <sys/types.h>
+
 #define HTTP_VERSION	"HTTP/1.0"
 #define HTTP2				/* Version is greater than 0.9 */
 
