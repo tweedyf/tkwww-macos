@@ -144,7 +144,7 @@ global _edtkTEXTFG; set _edtkTEXTFG black
 global _edtkTEXTSB; set _edtkTEXTSB black		;# selected bg; Tk default is lt blue
 global _edtkTEXTSF; set _edtkTEXTSF white		;# selected fg
 global _edtkTEXTBW; set _edtkTEXTBW 0		;# selection border width
-global _edtkPREFS(textfont); set _edtkPREFS(textfont) default	;
+set _edtkPREFS(textfont) default	;
 		# if default, font won't be set
 
 tkW3MenuMakeMenus .edit.menu {
