@@ -28,7 +28,7 @@ set tkW3HtPage(base) ""
 set tkW3HtPage(modified) 0
 set tkW3HtPage(is_index) 0
 
-set tkW3ConfigHelpRoot http://tk-www.mit.edu:8001/tk-www/help
+set tkW3ConfigHelpRoot https://web.mit.edu/course/other/cdsdev/html/tk-www/help
 
 set tkW3ConfigMailList(request) vn@vungtau.cerf.net
 set tkW3ConfigMailList(list) tkwww@vungtau.cerf.net
@@ -107,7 +107,7 @@ set tkW3ConfigMenus {
 	{"Add Bookmark" tkW3BookmarksAdd 0}
 	{}
 	{"Open Introduction" 
-	    {tkW3NavigateRecordAndGoto "http://tk-www.mit.edu:8001/tk-www/help/sources.html"}}
+	    {tkW3NavigateRecordAndGoto "https://web.mit.edu/course/other/cdsdev/html/tk-www/help/sources.html"}}
 
     }}
 
