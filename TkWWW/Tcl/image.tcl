@@ -53,8 +53,14 @@ proc tkW3ImageDisplayFile {file_name} {
 	tkW3OutputClearBody
 	tkW3OutputSetMessage {}
     } {
-	tkW3NavigatePreface {Image file} {image} \
-	    "exec $tkW3ConfigImageViewer $file_name &"
+	# For macOS, use the open command to display images in Preview
+	if {$tkW3ConfigViewer(image) == "open"} {
+	    tkW3NavigatePreface {Image file} {image} \
+		"exec open \"$file_name\" &"
+	} else {
+	    tkW3NavigatePreface {Image file} {image} \
+		"exec $tkW3ConfigViewer(image) \"$file_name\" &"
+	}
     }
 }
 

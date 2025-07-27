@@ -43,12 +43,14 @@ set tkW3ConfigViewer(editor) 		emacs
 set tkW3ConfigViewer(terminal)		xterm
 set tkW3ConfigViewer(printer)		lpr
 set tkW3ConfigViewer(dvi)		xdvi
-set tkW3ConfigViewer(image)		xli
+# Use macOS-compatible image viewer instead of xli
+set tkW3ConfigViewer(image)		open
 set tkW3ConfigViewer(video)		mpeg_play
 set tkW3ConfigViewer(audio)		showaudio
 set tkW3ConfigViewer(postscript)	ghostview
 
-set tkW3ConfigImageDirectView 1
+# Disable direct image view on macOS since it requires X11
+set tkW3ConfigImageDirectView 0
 
 ## Procedure to exec a command in a terminal
 
