@@ -34,7 +34,10 @@ proc tkW3NavigateClone {{page ""} {anchor ""} {ismap 0}} {
   }
 
   tkW3OutputSetMessage "Opening New Window ..." 5000
-  set command [list exec tkwww -start \
+  # Use the full path to the tkwww executable - find it relative to the script location
+  set script_dir [file dirname [info script]]
+  set tkwww_path [file join $script_dir tkwww]
+  set command [list exec $tkwww_path -start \
              [HtParseName $page [tkW3NavigateGetAddress]] \
             -home $tkW3ConfigHomePage -noinfo -name tkWWW ]
   if {$anchor != ""} {
