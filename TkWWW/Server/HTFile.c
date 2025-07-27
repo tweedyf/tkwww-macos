@@ -22,6 +22,11 @@
 #include "HTFile.h"		/* Implemented here */
 #include "TkWWWCmds.h"
 
+/* System headers needed for getgroups, geteuid, etc. */
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
 #define INFINITY 512		/* file name length @@ FIXME */
 
 #ifdef VMS

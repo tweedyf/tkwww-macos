@@ -16,6 +16,10 @@
 */
 #include "HTFormat.h"
 
+/* System headers needed for read, etc. */
+#include <unistd.h>
+#include <sys/types.h>
+
 PUBLIC float HTMaxSecs = 1e10;		/* No effective limit */
 PUBLIC float HTMaxLength = 1e10;	/* No effective limit */
 
