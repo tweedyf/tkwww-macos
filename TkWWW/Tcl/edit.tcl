@@ -92,8 +92,13 @@ set tkW3ConfigEditTk {
 proc tkW3EditBindText {w} {
     global tkW3EditStyle
 
-    bind $w <KeyPress> {tkW3EditInsert %W %A}
-    bind $w <Shift-KeyPress> {tkW3EditInsert %W %A}
+    # Create a custom binding tag for this widget to override Text class bindings
+    bind tkW3EditText <Any-KeyPress> {tkW3EditInsert %W %A}
+    bind tkW3EditText <KeyPress> {tkW3EditInsert %W %A}
+    bind tkW3EditText <Shift-KeyPress> {tkW3EditInsert %W %A}
+    
+    # Set the widget's binding tags to use our custom tag first, then the widget itself
+    bindtags $w [list tkW3EditText $w]
     bind $w <Control-y> {tkW3EditInsert [tkW3EditSelectionGet]}
 
     bind $w <ButtonPress-2> {tkW3HtButtonPress %W @%x,%y %b}
