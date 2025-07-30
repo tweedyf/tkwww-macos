@@ -493,6 +493,17 @@ option add *TMenu*foreground black userDefault
 option add *TMenu*activeBackground lightgray userDefault
 option add *TMenu*activeForeground black userDefault
 
+# Style entry widgets to match the application's gray theme
+option add *Entry*background gray userDefault
+option add *Entry*foreground black userDefault
+option add *Entry*insertBackground black userDefault
+option add *Entry*selectBackground lightgray userDefault
+option add *Entry*selectForeground black userDefault
+option add *Entry*relief sunken userDefault
+option add *Entry*borderWidth 2 userDefault
+option add *Entry*highlightBackground gray userDefault
+option add *Entry*highlightColor black userDefault
+
 ## *************************
 ## Set key bindings
 ## *************************

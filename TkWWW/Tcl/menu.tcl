@@ -19,7 +19,8 @@
 # returns a list of menus created
 
 proc tkW3MenuMakeMenus {menubar list} {
-    frame $menubar
+    # Create a single continuous menu bar frame with Motif styling
+    frame $menubar -relief raised -borderwidth 2 -background gray -height 25
     
     set menu_list ""
     foreach menu_item $list {
@@ -35,23 +36,20 @@ proc tkW3MenuMakeMenus {menubar list} {
 	    set position "left"
 	}
 
-	# Create a custom frame-based button for complete styling control
-	frame $menu_name -relief raised -borderwidth 2 -background gray
-	label $menu_name.label -text $menu_title -background gray -foreground black -relief flat
-	pack $menu_name.label -in $menu_name -padx 4 -pady 2
+	# Create a Motif-style menu header (text label with underline)
+	label $menu_name -text $menu_title -background gray -foreground black \
+		-relief flat -borderwidth 0 -padx 8 -pady 4 \
+		-font "-adobe-helvetica-medium-r-normal--12-*-*-*-*-*-*-*"
 	
-	# Bind mouse events to make it behave like a button
+	# Bind mouse events for Motif-style behavior
 	bind $menu_name <Button-1> "tkW3MenuShowPopup $menu_name $menu_name.m"
-	bind $menu_name <Enter> "$menu_name configure -background lightgray; $menu_name.label configure -background lightgray"
-	bind $menu_name <Leave> "$menu_name configure -background gray; $menu_name.label configure -background gray"
-	bind $menu_name.label <Button-1> "tkW3MenuShowPopup $menu_name $menu_name.m"
-	bind $menu_name.label <Enter> "$menu_name configure -background lightgray; $menu_name.label configure -background lightgray"
-	bind $menu_name.label <Leave> "$menu_name configure -background gray; $menu_name.label configure -background gray"
+	bind $menu_name <Enter> "$menu_name configure -background lightgray -foreground black"
+	bind $menu_name <Leave> "$menu_name configure -background gray -foreground black"
 	
-	pack $menu_name -side $position
+	pack $menu_name -side $position -fill y
         
         if {$menu_underline != ""} {
-	    $menu_name.label configure -underline $menu_underline
+	    $menu_name configure -underline $menu_underline
 	}
 
         # Create the popup menu
@@ -61,7 +59,7 @@ proc tkW3MenuMakeMenus {menubar list} {
     return $menubar
 }
 
-# Custom procedure to show popup menus for our button-based menu system
+# Custom procedure to show popup menus for our Motif-style menu system
 proc tkW3MenuShowPopup {button menu} {
     # Get the button's position
     set x [winfo rootx $button]
